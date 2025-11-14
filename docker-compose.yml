@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   web:
     build: .
@@ -9,21 +11,16 @@ services:
     depends_on:
       - db
       - redis
+    env_file:
+      - .env # بارگذاری همه env variables از فایل
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings
-      - POSTGRES_DB=chatdb
-      - POSTGRES_USER=chatuser
-      - POSTGRES_PASSWORD=chatpass
-      - POSTGRES_HOST=db
-      - REDIS_HOST=redis
 
   db:
     image: postgres:14
     restart: always
-    environment:
-      POSTGRES_DB: chatdb
-      POSTGRES_USER: chatuser
-      POSTGRES_PASSWORD: chatpass
+    env_file:
+      - .env
     ports:
       - "5432:5432"
     volumes:
